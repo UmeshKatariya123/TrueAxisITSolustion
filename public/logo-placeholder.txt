@@ -1,0 +1,27 @@
+LOGO PLACEMENT INSTRUCTIONS
+============================
+
+To use your own logo image file instead of the SVG logo:
+
+1. Place your logo image file in the frontend/public/ folder
+   (e.g., frontend/public/logo.png or frontend/public/logo.svg)
+
+2. Update the Logo component usage in Navbar.js and Footer.js:
+
+   Option A: Use image from public folder
+   <Logo size="default" variant="light" useImage={true} imageSrc="/logo.png" />
+
+   Option B: Import image file
+   - First, move your logo to frontend/src/assets/logo.png
+   - Import it: import logoImage from '../assets/logo.png';
+   - Use it: <Logo size="default" variant="light" useImage={true} imageSrc={logoImage} />
+
+3. Recommended logo dimensions:
+   - Navbar: 48x48px to 64x64px
+   - Footer: 48x48px to 64x64px
+   - Formats: PNG (with transparency), SVG, or JPG
+
+4. The SVG logo will automatically adapt to light/dark backgrounds.
+   If using your own image, make sure it works on both backgrounds,
+   or create separate light/dark versions.
+

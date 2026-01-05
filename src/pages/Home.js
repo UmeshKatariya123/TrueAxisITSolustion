@@ -8,7 +8,7 @@ import Testimonials from '../components/Testimonials';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://trueaxis-backend.onrender.com/api';
 
 function Home() {
   const [heroContent, setHeroContent] = useState(null);

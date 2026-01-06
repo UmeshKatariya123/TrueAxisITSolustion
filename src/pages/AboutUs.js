@@ -15,7 +15,7 @@ function AboutUs() {
 
   const fetchAboutContent = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/content?category=about`);
+      const response = await axios.get(`${API_URL}/content?category=about`);
       setAboutContent(response.data);
     } catch (error) {
       console.error('Error fetching about content:', error);

@@ -28,7 +28,7 @@ const Logo = ({ className = "", showText = true, size = "default", variant = "li
     
     const fetchLogo = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/logo/variant/${variant}`);
+        const response = await axios.get(`${API_URL}/logo/variant/${variant}`);
         setLogoData(response.data);
       } catch (error) {
         // Logo not found, will use SVG fallback

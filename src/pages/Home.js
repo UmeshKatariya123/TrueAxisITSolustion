@@ -24,10 +24,10 @@ function Home() {
   const fetchContent = async () => {
     try {
       const [heroRes, servicesRes, featuresRes, testimonialsRes] = await Promise.all([
-        axios.get(`${process.env.REACT_APP_API_URL}/content?category=hero`),
-        axios.get(`${process.env.REACT_APP_API_URL}/content?category=service`),
-        axios.get(`${process.env.REACT_APP_API_URL}/content?category=feature`),
-        axios.get(`${process.env.REACT_APP_API_URL}/content?category=testimonial`)
+        axios.get(`${API_URL}/content?category=hero`),
+        axios.get(`${API_URL}/content?category=service`),
+        axios.get(`${API_URL}/content?category=feature`),
+        axios.get(`${API_URL}/content?category=testimonial`)
       ]);
 
       if (heroRes.data.length > 0) {

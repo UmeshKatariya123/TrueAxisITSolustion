@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -16,6 +16,33 @@ function LetsTalk() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [connectionStatus, setConnectionStatus] = useState('checking'); // 'checking', 'connected', 'disconnected'
+
+  // Test backend connection on component mount
+  useEffect(() => {
+    const testConnection = async () => {
+      try {
+        setConnectionStatus('checking');
+        // Remove /api from URL for health check
+        const baseUrl = API_URL.replace('/api', '');
+        const response = await axios.get(`${baseUrl}/health`, { timeout: 5000 });
+        if (response.data && response.data.status === 'ok') {
+          setConnectionStatus('connected');
+          setError(''); // Clear any previous errors
+        } else {
+          setConnectionStatus('disconnected');
+        }
+      } catch (err) {
+        console.error('Backend connection test failed:', err);
+        setConnectionStatus('disconnected');
+        if (err.code === 'ERR_NETWORK' || err.message === 'Network Error') {
+          setError('Cannot connect to server. Please make sure the backend server is running on ' + API_URL.replace('/api', ''));
+        }
+      }
+    };
+
+    testConnection();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -120,6 +147,29 @@ function LetsTalk() {
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     Thank you for your message! We'll get back to you soon.
+                  </div>
+                </div>
+              )}
+
+              {/* Connection Status Indicator */}
+              {connectionStatus === 'checking' && (
+                <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded mb-6">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Checking server connection...
+                  </div>
+                </div>
+              )}
+
+              {connectionStatus === 'connected' && !error && (
+                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded mb-6">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Server connected successfully
                   </div>
                 </div>
               )}

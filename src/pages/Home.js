@@ -24,20 +24,25 @@ function Home() {
   const fetchContent = async () => {
     try {
       const [heroRes, servicesRes, featuresRes, testimonialsRes] = await Promise.all([
-        axios.get(`${API_URL}/content?category=hero`),
-        axios.get(`${API_URL}/content?category=service`),
-        axios.get(`${API_URL}/content?category=feature`),
-        axios.get(`${API_URL}/content?category=testimonial`)
+        axios.get(`${API_URL}/content?category=hero`, { timeout: 10000 }),
+        axios.get(`${API_URL}/content?category=service`, { timeout: 10000 }),
+        axios.get(`${API_URL}/content?category=feature`, { timeout: 10000 }),
+        axios.get(`${API_URL}/content?category=testimonial`, { timeout: 10000 })
       ]);
 
-      if (heroRes.data.length > 0) {
+      if (heroRes.data && heroRes.data.length > 0) {
         setHeroContent(heroRes.data[0]);
       }
-      setServices(servicesRes.data);
-      setFeatures(featuresRes.data);
-      setTestimonials(testimonialsRes.data);
+      setServices(servicesRes.data || []);
+      setFeatures(featuresRes.data || []);
+      setTestimonials(testimonialsRes.data || []);
     } catch (error) {
       console.error('Error fetching content:', error);
+      // Set empty arrays to show default content
+      setServices([]);
+      setFeatures([]);
+      setTestimonials([]);
+      // Don't set heroContent so default is used
     } finally {
       setLoading(false);
     }

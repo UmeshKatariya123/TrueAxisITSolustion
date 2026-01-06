@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://trueaxis-backend.onrender.com/api';
@@ -11,11 +11,7 @@ const ContactManager = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchContacts();
-  }, [statusFilter, currentPage]);
-
-  const fetchContacts = async () => {
+  const fetchContacts = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/contact/admin/all`, {
@@ -33,7 +29,11 @@ const ContactManager = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [statusFilter, currentPage]);
+
+  useEffect(() => {
+    fetchContacts();
+  }, [fetchContacts]);
 
   const handleStatusChange = async (id, newStatus) => {
     try {

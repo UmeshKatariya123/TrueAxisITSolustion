@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Logo from './Logo';
+import logoLight from '../assets/images/logo-light.png';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,13 +38,25 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Logo size="default" variant="dark" />
+            <Link to="/" className="flex items-center space-x-3">
+              {/* <img
+                src={logoLight}
+                alt="TrueAxis IT Solution"
+                className="h-12 w-auto"
+              /> */}
+              <img
+                src={logoLight}
+                alt="TrueAxis IT Solution"
+                className="h-14 md:h-40 lg:h-18 w-auto"
+                style={{ maxHeight: '155px' }}
+              />
+            </Link>
           </div>
-          
+
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-6 font-medium">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className={`${isActive('/') && location.pathname === '/' ? 'text-blue-400 font-semibold' : 'text-gray-300 hover:text-blue-400'} transition tracking-wide`}
             >
               Home
@@ -55,26 +67,26 @@ const Navbar = () => {
             >
               Services
             </button>
-            <Link 
-              to="/our-work" 
+            <Link
+              to="/our-work"
               className={`${isActive('/our-work') ? 'text-blue-400 font-semibold' : 'text-gray-300 hover:text-blue-400'} transition tracking-wide`}
             >
               Our Work
             </Link>
-            <Link 
-              to="/blog" 
+            <Link
+              to="/blog"
               className={`${isActive('/blog') ? 'text-blue-400 font-semibold' : 'text-gray-300 hover:text-blue-400'} transition tracking-wide`}
             >
               Blog
             </Link>
-            <Link 
-              to="/about-us" 
+            <Link
+              to="/about-us"
               className={`${isActive('/about-us') ? 'text-blue-400 font-semibold' : 'text-gray-300 hover:text-blue-400'} transition tracking-wide`}
             >
               About Us
             </Link>
-            <Link 
-              to="/lets-talk" 
+            <Link
+              to="/lets-talk"
               className="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition tracking-wide"
             >
               Let's Talk
@@ -99,8 +111,8 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden py-4 space-y-3 border-t border-gray-800">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-blue-400 rounded transition"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -112,29 +124,29 @@ const Navbar = () => {
             >
               Services
             </button>
-            <Link 
-              to="/our-work" 
+            <Link
+              to="/our-work"
               className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-blue-400 rounded transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Our Work
             </Link>
-            <Link 
-              to="/blog" 
+            <Link
+              to="/blog"
               className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-blue-400 rounded transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               Blog
             </Link>
-            <Link 
-              to="/about-us" 
+            <Link
+              to="/about-us"
               className="block px-4 py-2 text-gray-300 hover:bg-gray-800 hover:text-blue-400 rounded transition"
               onClick={() => setMobileMenuOpen(false)}
             >
               About Us
             </Link>
-            <Link 
-              to="/lets-talk" 
+            <Link
+              to="/lets-talk"
               className="block px-4 py-2 bg-blue-600 text-white rounded-lg text-center font-semibold hover:bg-blue-700 transition"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -147,5 +159,5 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);
 

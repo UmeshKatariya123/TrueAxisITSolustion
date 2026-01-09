@@ -74,6 +74,7 @@ function OurWork() {
                       <img
                         src={project.image}
                         alt={project.title}
+                        loading="lazy"
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                         onError={(e) => {
                           e.target.style.display = 'none';
@@ -133,5 +134,5 @@ function OurWork() {
   );
 }
 
-export default OurWork;
+export default React.memo(OurWork);
 

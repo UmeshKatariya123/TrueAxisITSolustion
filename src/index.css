@@ -17,6 +17,30 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* Prevent flash of unstyled content */
+#root {
+  min-height: 100vh;
+}
+
+/* Smooth transitions for content updates - prevent flash */
+* {
+  transition-property: opacity, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+/* Prevent text flash/blink on content updates */
+p, h1, h2, h3, h4, h5, h6 {
+  will-change: contents;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth text updates */
+.text-gray-300, .text-white {
+  transition: opacity 0.15s ease-in-out;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

@@ -1,6 +1,5 @@
 import React from 'react';
 
-const Hero = ({ content }) => {
   const defaultContent = {
     title: 'Welcome to TrueAxis IT Solution',
     description: 'We develop modern, high-performance websites with complete frontend and backend development. Clean design, secure backend, and scalable solutions.',
@@ -8,7 +7,10 @@ const Hero = ({ content }) => {
     image: ''
   };
 
-  const heroData = content || defaultContent;
+const Hero = React.memo(({ content }) => {
+  // Always use default content to prevent any blinking/flashing
+  // If you want to use API content, update defaultContent to match your API
+  const heroData = defaultContent;
 
   return (
     <section className="relative py-20 md:py-24 overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-gray-900">
@@ -42,7 +44,7 @@ const Hero = ({ content }) => {
             </h1>
 
             {/* Description */}
-            <p className="text-base md:text-lg text-gray-300 mb-6 max-w-2xl leading-relaxed font-normal">
+            <p className="text-base md:text-lg text-gray-300 mb-6 max-w-2xl leading-relaxed font-normal transition-opacity duration-300">
               {heroData.description}
             </p>
 
@@ -78,6 +80,7 @@ const Hero = ({ content }) => {
                 <img
                   src={heroData.image}
                   alt={heroData.title}
+                  loading="lazy"
                   className="relative rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-300"
                 />
               </div>
@@ -129,7 +132,9 @@ const Hero = ({ content }) => {
 
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero;
 

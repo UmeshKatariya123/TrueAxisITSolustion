@@ -15,59 +15,67 @@ function Home() {
   const [services, setServices] = useState([]);
   const [features, setFeatures] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [contentLoading, setContentLoading] = useState(true);
 
   useEffect(() => {
-    fetchContent();
-  }, []);
-
-  const fetchContent = async () => {
+    // Load all content in parallel
+    const loadContent = async () => {
     try {
       const [heroRes, servicesRes, featuresRes, testimonialsRes] = await Promise.all([
-        axios.get(`${API_URL}/content?category=hero`, { timeout: 10000 }),
-        axios.get(`${API_URL}/content?category=service`, { timeout: 10000 }),
-        axios.get(`${API_URL}/content?category=feature`, { timeout: 10000 }),
-        axios.get(`${API_URL}/content?category=testimonial`, { timeout: 10000 })
+          axios.get(`${API_URL}/content?category=hero`, { timeout: 10000 }),
+          axios.get(`${API_URL}/content?category=service`, { timeout: 10000 }),
+          axios.get(`${API_URL}/content?category=feature`, { timeout: 10000 }),
+          axios.get(`${API_URL}/content?category=testimonial`, { timeout: 10000 })
       ]);
 
-      if (heroRes.data && heroRes.data.length > 0) {
+        if (heroRes.data && heroRes.data.length > 0) {
         setHeroContent(heroRes.data[0]);
       }
-      setServices(servicesRes.data || []);
-      setFeatures(featuresRes.data || []);
-      setTestimonials(testimonialsRes.data || []);
+        setServices(servicesRes.data || []);
+        setFeatures(featuresRes.data || []);
+        setTestimonials(testimonialsRes.data || []);
     } catch (error) {
       console.error('Error fetching content:', error);
-      // Set empty arrays to show default content
-      setServices([]);
-      setFeatures([]);
-      setTestimonials([]);
-      // Don't set heroContent so default is used
+        setServices([]);
+        setFeatures([]);
+        setTestimonials([]);
     } finally {
-      setLoading(false);
+        setContentLoading(false);
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="text-blue-600 text-xl">Loading...</div>
-      </div>
-    );
-  }
+    loadContent();
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
       <Hero content={heroContent} />
+      {!contentLoading ? (
+        <>
       <Services services={services} />
       <Features features={features} />
       <Testimonials testimonials={testimonials} />
+        </>
+      ) : (
+        <div className="py-24 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="animate-pulse space-y-8">
+              <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-64 bg-gray-200 rounded-lg"></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <CTA />
       <Footer />
     </div>
   );
 }
 
-export default Home;
+export default React.memo(Home);
 

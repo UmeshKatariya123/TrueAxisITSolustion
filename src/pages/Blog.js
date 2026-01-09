@@ -72,6 +72,7 @@ function Blog() {
                       <img
                         src={blog.image}
                         alt={blog.title}
+                        loading="lazy"
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           e.target.style.display = 'none';
@@ -118,5 +119,5 @@ function Blog() {
   );
 }
 
-export default Blog;
+export default React.memo(Blog);
 
